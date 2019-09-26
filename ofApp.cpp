@@ -7,14 +7,14 @@ using namespace std;
 ofPlanePrimitive plane;
 //--------------------------------------------------------------
 void ofApp::setup() {
-	ofSetVerticalSync(true);
-
 	buton.addListener(this, &ofApp::buttonPressed);
 	slider.addListener(this, &ofApp::sliderChanged);
+
+	ofSetVerticalSync(true);
 	gui.setup();
-	t = 1 / T;
-	gui.add(slider.setup("select X", 5, 2, ofGetWidth()));
-	gui.add(buton.setup("boton pintar"));
+	
+	gui.add(slider.setup("seleccion X", 5, 2, ofGetWidth()));
+	gui.add(buton.setup("Pintar"));
 }
 
 //--------------------------------------------------------------
@@ -34,17 +34,11 @@ void ofApp::exit() {
 	buton.removeListener(this, &ofApp::buttonPressed);
 }
 
-float interpolate(float n1, float n2, float t)
-{
-	return n1 + ((n2 - n1) * t);
-}
-
 void ofApp::buttonPressed() {
 	numPuntos = 0;
-	numQ = 0;
 	line.clear();
 	limpialinea = false;
-	cout << "ingresar saltos \n";
+	cout << "T \n";
 	cin >> T;
 	t = 1 / T;
 	
@@ -78,21 +72,33 @@ void ofApp::mouseDragged(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
-	ofPoint pt;
-	pt.set(x, y);
-	puntos[numPuntos] = pt;
-	line.addVertex(pt);
+	ofPoint punto;
+	punto.set(x, y);
+	puntos[numPuntos] = punto;
+	line.addVertex(punto);
 	numPuntos++;
-	if (numPuntos > 2) {
-		// puntos intermedios 
+	if (numPuntos > 2 and T > 0) {
 		ofPoint Pintermedios[100];
 		for (int i = 0; i < numPuntos; i++) {
 			if (i + 1 < numPuntos) {
-				ofPoint punto = puntos[i];
-				ofPoint punto1 = puntos[i + 1];
+				float y = 1;
+				double t = 1.0/T;
+				double origt=t;
+				cout << T << "\n";
+				cout << t << "\n";
+				cout << origt << "\n";
 				
 
+				while (y > 0){
+					ofPoint punto0 = (1 - t)*puntos[i] + t * puntos[i + 1];
+					ofPoint punto1 = (1 - t)*puntos[i + 1] + t * puntos[i + 2];
+					line.addVertex(punto0);
+					line.addVertex(punto1);
+					t = t + origt;
+					y = 1 - t;
+				}
 			}
+
 		}
 	}
 }

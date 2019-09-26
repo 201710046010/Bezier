@@ -13,13 +13,10 @@ public:
 	ofxIntField sectorinI;
 	ofxIntSlider slider;
 	ofPolyline line;
-	ofPolyline lineInter;
 	ofPoint puntos[100];
-	ofPoint intermedios[100];
 	int numPuntos;
-	int numQ;
-	int T = 8;
-	float t = 0;
+	int T;
+	double t=0;
 	//position
 	bool limpialinea = false;
 	int x = 0;

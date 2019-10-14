@@ -1,32 +1,21 @@
 #pragma once
 
-#include "ofMain.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream> 
+#include <math.h> 
 #include "ofxGui.h"
-#include <list>
 using namespace std;
+
+#include "ofMain.h"
+
 class ofApp : public ofBaseApp {
 
 public:
-	ofxPanel gui;
-	ofxButton buton;
-	ofParameter < bool > ofParExample;
-	ofxIntField sectorinI;
-	ofxIntSlider slider;
-	ofPolyline line;
-	ofPoint puntos[100];
-	int numPuntos;
-	int T;
-	double t=0;
-	//position
-	bool limpialinea = false;
-	int x = 0;
+
 	void setup();
 	void update();
 	void draw();
-
-	void buttonPressed();
-	void exit();
-	void sliderChanged(int &slider);
 
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -40,4 +29,14 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	float interpolate(float x, float y, float accur);
+	std::vector<ofVec2f> bezier_curve(std::vector<ofVec2f>& anchor, float accur);
+
+	//ofxIntSlider degree;
+	ofxIntSlider accuracy;
+	ofxButton clearBtn;
+	ofxButton drawBtn;
+	ofxPanel gui;
+	std::vector<ofVec2f> controlPts;
+	bool drawPressed;
 };
